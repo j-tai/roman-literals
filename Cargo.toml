@@ -1,0 +1,18 @@
+[package]
+name = "roman-literals"
+version = "0.1.0"
+edition = "2021"
+
+authors = ["Jasmine Tai <jtai@jtai.ca>"]
+license = "WTFPL"
+description = "Write integer literals using Roman numerals"
+homepage = "https://github.com/j-tai/roman-literals"
+documentation = "https://docs.rs/roman-literals/*/roman-literals/"
+repository = "https://github.com/j-tai/roman-literals"
+categories = ["localization"]
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+paste = "1.0.8"
