@@ -4,7 +4,7 @@ version = "0.2.0"
 edition = "2021"
 
 authors = ["Jasmine Tai <jtai@jtai.ca>"]
-license = "WTFPL"
+license = "Unlicense"
 description = "Write integer literals using Roman numerals"
 homepage = "https://github.com/j-tai/roman-literals"
 documentation = "https://docs.rs/roman-literals/*/roman-literals/"
