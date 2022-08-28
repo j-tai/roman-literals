@@ -18,8 +18,8 @@ numerals.
 inferred, with [`iXXXII`] being the default. The macro also supports
 negative numbers; see [`roman!`] for more details.
 
-* Constants are also provided, such as [`consts::III_uXXXII`]. These constants
-are all suffixed with their type. See the [`consts`] module for details.
+* Constants are also provided, such as `III_uXXXII`. These constants are all
+suffixed with their type. See the [`consts`] module for more details.
 
 # Examples
 
