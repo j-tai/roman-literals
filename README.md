@@ -18,19 +18,21 @@ numerals.
 inferred, with [`iXXXII`] being the default. The macro also supports
 negative numbers; see [`roman!`] for more details.
 
-* Constants are also provided, such as [`III_uXXXII`]. These constants are
-all suffixed with their type.
+* Constants are also provided, such as [`consts::III_uXXXII`]. These constants
+are all suffixed with their type. See the [`consts`] module for details.
 
 # Examples
 
 ```rust
-use roman_literals::*;
+use roman_literals::*; // roman! macro and type aliases
 
 let forty_two: uXXXII = roman!(XLII);
 assert_eq!(forty_two, 42);
 
 let negative_3999: iXVI = roman!(-MMMCMXCIX);
 assert_eq!(negative_3999, -3999);
+
+use roman_literals::consts::*; // to get the constants
 
 let negative_300 = -CCC_iLXIV; // i64
 assert_eq!(negative_300, -300);

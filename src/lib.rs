@@ -1,9 +1,10 @@
 #![doc = include_str!("../README.md")]
 
-mod constants;
-mod roman;
+pub mod consts;
+#[doc(hidden)]
+pub mod roman;
 mod types;
 
-pub use constants::*;
+#[doc(hidden)]
 pub use roman::*;
 pub use types::*;

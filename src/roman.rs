@@ -1,17 +1,7 @@
-/// Write a constant Roman numeral.
-/// 
-/// Any number from I to MMMCMXCIX (1 to 3999) is allowed. Negative numbers can
-/// be prefixed with `-`. There is currently no way to write zero using this
-/// macro.
-/// 
-/// Like numeric literals in Rust, the type of the literal is inferred, and the
-/// default type is [`iXXXII`](crate::iXXXII).
-/// 
-/// See the [crate-level documentation](crate) for details.
 #[rustfmt::skip]
+#[doc(hidden)]
 #[macro_export]
-macro_rules! roman {
-    (- $($rest:tt)*) => (-roman!($($rest)*));
+macro_rules! __roman_impl {
     (I) => (1);
     (II) => (2);
     (III) => (3);
@@ -4011,6 +4001,28 @@ macro_rules! roman {
     (MMMCMXCVII) => (3997);
     (MMMCMXCVIII) => (3998);
     (MMMCMXCIX) => (3999);
+}
+
+pub use __roman_impl;
+
+/// Write a constant Roman numeral.
+///
+/// Any number from I to MMMCMXCIX (1 to 3999) is allowed. Negative numbers can
+/// be prefixed with `-`. There is currently no way to write zero using this
+/// macro.
+///
+/// Like numeric literals in Rust, the type of the literal is inferred, and the
+/// default type is [`iXXXII`](crate::iXXXII).
+///
+/// See the [crate-level documentation](crate) for examples.
+#[macro_export]
+macro_rules! roman {
+    (- $($rest:tt)*) => {
+        -roman!($($rest)*)
+    };
+    ($id:ident) => {
+        $crate::roman::__roman_impl!($id)
+    };
 }
 
 pub use roman;
