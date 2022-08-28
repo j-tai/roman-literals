@@ -4001,6 +4001,9 @@ macro_rules! __roman_impl {
     (MMMCMXCVII) => (3997);
     (MMMCMXCVIII) => (3998);
     (MMMCMXCIX) => (3999);
+    ($id:ident) => {
+        compile_error!(concat!("invalid roman numeral `", stringify!($id), "`"));
+    };
 }
 
 pub use __roman_impl;
