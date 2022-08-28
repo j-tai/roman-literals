@@ -1,3 +1,24 @@
+//! Roman literals with explicit types.
+//!
+//! This module exports a constant for every combination of a Roman literal and
+//! an integral type.
+//!
+//! All numbers from I to MMMCMXCIX (1 to 3999) are available, in each of the
+//! following types:
+//!
+//! * [`iVIII`], [`uVIII`]
+//! * [`iXVI`], [`uXVI`]
+//! * [`iXXXII`], [`uXXXII`]
+//! * [`iLXIV`], [`uLXIV`]
+//! * [`iCXXVIII`], [`uCXXVIII`]
+//! * [`isize`], [`usize`]
+//!
+//! except for types that are not large enough to fit the number.
+//!
+//! **NOTE:** only the constants I through XX are shown in the documentation, to
+//! prevent the documentation from getting too large. The rest of the constants
+//! (XXI to MMMCMXCIX) are `#[doc(hidden)]`.
+
 #![allow(non_upper_case_globals)]
 
 use paste::paste;
@@ -6,36 +27,47 @@ use crate::roman::roman;
 use crate::types::*;
 
 macro_rules! gen_constant {
-    ($typ:ident; [ $($number:ident),* $(,)? ]) => {
+    (() $typ:ident; [ $($number:ident),* $(,)? ]) => {
+        // put a placeholder attribute
+        gen_constant!((#[allow(non_upper_case_globals)]) $typ; [$($number),*]);
+    };
+    ((#[$attr:meta]) $typ:ident; [ $($number:ident),* $(,)? ]) => {
         paste! {
             $(
+                #[$attr]
                 pub const [<$number _ $typ>]: $typ = roman!($number);
             )*
         }
-    }
+    };
 }
 
 macro_rules! make_constants {
-    ($($typ:ident),* ; $numbers:tt) => {
-        $(gen_constant!($typ; $numbers);)*
-        gen_constant!(iXVI; $numbers);
-        gen_constant!(iXXXII; $numbers);
-        gen_constant!(iLXIV; $numbers);
-        gen_constant!(iCXXVIII; $numbers);
-        gen_constant!(isize; $numbers);
-        gen_constant!(uXVI; $numbers);
-        gen_constant!(uXXXII; $numbers);
-        gen_constant!(uLXIV; $numbers);
-        gen_constant!(uCXXVIII; $numbers);
-        gen_constant!(usize; $numbers);
+    ($attr:tt [$($typ:ident),*] ; $numbers:tt) => {
+        $(gen_constant!($attr $typ; $numbers);)*
+        gen_constant!($attr iXVI; $numbers);
+        gen_constant!($attr iXXXII; $numbers);
+        gen_constant!($attr iLXIV; $numbers);
+        gen_constant!($attr iCXXVIII; $numbers);
+        gen_constant!($attr isize; $numbers);
+        gen_constant!($attr uXVI; $numbers);
+        gen_constant!($attr uXXXII; $numbers);
+        gen_constant!($attr uLXIV; $numbers);
+        gen_constant!($attr uCXXVIII; $numbers);
+        gen_constant!($attr usize; $numbers);
     };
 }
 
 #[rustfmt::skip]
 make_constants! {
-    iVIII, uVIII; [
+    () [iVIII, uVIII]; [
         I, II, III, IV, V, VI, VII, VIII, IX, X,
-        XI, XII, XIII, XIV, XV, XVI, XVII, XVIII, XIX, XX,
+        XI, XII, XIII, XIV, XV, XVI, XVII, XVIII, XIX, XX, // 20
+    ]
+}
+
+#[rustfmt::skip]
+make_constants! {
+    (#[doc(hidden)]) [iVIII, uVIII]; [
         XXI, XXII, XXIII, XXIV, XXV, XXVI, XXVII, XXVIII, XXIX, XXX,
         XXXI, XXXII, XXXIII, XXXIV, XXXV, XXXVI, XXXVII, XXXVIII, XXXIX, XL,
         XLI, XLII, XLIII, XLIV, XLV, XLVI, XLVII, XLVIII, XLIX, L,
@@ -52,7 +84,7 @@ make_constants! {
 
 #[rustfmt::skip]
 make_constants! {
-    uVIII; [
+    (#[doc(hidden)]) [uVIII]; [
         CXXVIII, CXXIX, CXXX,
         CXXXI, CXXXII, CXXXIII, CXXXIV, CXXXV, CXXXVI, CXXXVII, CXXXVIII, CXXXIX, CXL,
         CXLI, CXLII, CXLIII, CXLIV, CXLV, CXLVI, CXLVII, CXLVIII, CXLIX, CL,
@@ -72,7 +104,7 @@ make_constants! {
 
 #[rustfmt::skip]
 make_constants! {
-    ; [
+    (#[doc(hidden)]) []; [
         CCLVI, CCLVII, CCLVIII, CCLIX, CCLX,
         CCLXI, CCLXII, CCLXIII, CCLXIV, CCLXV, CCLXVI, CCLXVII, CCLXVIII, CCLXIX, CCLXX,
         CCLXXI, CCLXXII, CCLXXIII, CCLXXIV, CCLXXV, CCLXXVI, CCLXXVII, CCLXXVIII, CCLXXIX, CCLXXX,
